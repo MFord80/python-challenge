@@ -65,7 +65,7 @@ print(f"Greatest Increase in Profits: {max_inc_month} (${max_inc_amt})")
 print(f"Greatest Decrease in Profits: {max_dec_month} (${max_dec_amt})")
 
 #Export results to .txt
-file = os.path.join("Analysis", "results.csv")
+file = os.path.join("Analysis", "results.txt")
 
 with open(file, "a") as writer:
     writer.write("Financial Analysis\n--------------------------------\n")
