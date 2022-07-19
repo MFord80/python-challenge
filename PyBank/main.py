@@ -67,7 +67,7 @@ print(f"Greatest Decrease in Profits: {max_dec_month} (${max_dec_amt})")
 #Export results to .txt
 file = os.path.join("Analysis", "results.txt")
 
-with open(file, "a") as writer:
+with open(file, "w") as writer:
     writer.write("Financial Analysis\n--------------------------------\n")
     writer.write(f"Total Months: {tot_months}\n")
     writer.write(f"Total: ${tot_prof}\n")
