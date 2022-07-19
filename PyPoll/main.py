@@ -1,6 +1,5 @@
 import os
 import csv
-from typing import OrderedDict
 
 # Path to collect data
 file = os.path.join("Resources", "election_data.csv")
@@ -9,13 +8,7 @@ file = os.path.join("Resources", "election_data.csv")
 tot_votes = 0
 candidates = []
 votes = []
-
-# Define search funciton
-def search(list, cell):
-    for i in range(len(list)):
-        if list[i] == cell:
-            return True
-    return False
+percentage = []
 
 # Read in the CSV file
 with open(file) as csvfile:
@@ -29,32 +22,52 @@ with open(file) as csvfile:
     # Loop through the rows
     for row in csvreader:
 
-    #Total months count
+    #Total votes count
         tot_votes += 1
 
-    #Create candidates list
-        if search(candidates, row[2]):
-            continue
-        else:
+    #Create candidates list (with 1 initial vote tallied)
+        if row[2] not in candidates:
             candidates.append(row[2])
+            votes.append(1)
+    #Tally votes by assigning 
+        else:
+            x = candidates.index(row[2])
+            votes[x] += 1
 
-           
+# Calculate percentage of total votes by looping through vote tallies
+for i in votes:
+    individual_percentage = i/tot_votes
+    percentage.append(round(individual_percentage * 100, 3))
 
-#Candidate vote tallies
-for x in candidates:
-    print(x)
+# To determine winner
+most_votes = max(votes)
+winner_index = votes.index(most_votes)
+winner = candidates[winner_index]
 
-print(tot_votes) 
+# Print analysis to terminal
+print("Election Results")
+print("------------------------")
+print(f"Total Votes: {tot_votes}")
+print("------------------------")
+for i in range(len(candidates)):
+    print(f"{candidates[i]}: {percentage[i]}% ({votes[i]})")
+print("------------------------")
+print(f"Winner: {winner}")
+print("------------------------")
 
-x = 1
+#Export analysis to .txt
+file = os.path.join("Analysis", "results.txt")
 
-set_ = [2,2,3]
-print(set_)
-set_[x] += 1
-print(set_)
+with open(file, "w") as writer:
+    writer.write("Election Results\n------------------------\n")
+    writer.write(f"Total Votes: {tot_votes}\n")
+    writer.write("------------------------\n")
+    for i in range(len(candidates)):
+        writer.write(f"{candidates[i]}: {percentage[i]}% ({votes[i]})\n")
+    writer.write("------------------------\n")
+    writer.write(f"Winner: {winner}\n")
+    writer.write("------------------------")
+   
 
 
 
-
-
-## Search function adapted from this page: https://appdividend.com/2022/05/30/how-to-find-element-in-list-in-python/
